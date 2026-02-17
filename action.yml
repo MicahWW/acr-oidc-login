@@ -1,4 +1,4 @@
-name: Azure Container Registry Login
+name: Azure Container Registry OIDC Login
 description: Log in to Azure Container Registry (ACR) using Azure CLI.
 author: MicahWW
 
