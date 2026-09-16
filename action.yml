@@ -41,13 +41,20 @@ runs:
       id: get-acr-token
       shell: bash
       run: |
-        accessToken=$(az acr login \
-          --name ${{ inputs.registry-url }} \
-          --suffix ${{ inputs.registry-suffix }} \
-          --expose-token \
-          --output tsv \
+        args=(
+          --name "${{ inputs.registry-url }}"
+          --expose-token
+          --output tsv
           --query accessToken
         )
+
+        if [[ -n "${{ inputs.registry-suffix }}" ]]; then
+          args+=(
+            --suffix "${{ inputs.registry-suffix }}"
+          )
+
+        accessToken=$(az acr login "${args[@]})"
+
         echo "::add-mask::${accessToken}"
         echo "REGISTRY_ACCESS_TOKEN=${accessToken}" >> $GITHUB_OUTPUT
 
